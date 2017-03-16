@@ -3,14 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2017 | Hexo</title>
+  <title>android JNI | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="&amp;emsp;&amp;emsp;&amp;ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着Android NDK/JNI入门做个小demo。在实现的过程中遇到一个小坑，记录一下。
+
+遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 
+这是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android JNI">
+<meta property="og:url" content="http://yoursite.com/2017/03/16/jni/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着Android NDK/JNI入门做个小demo。在实现的过程中遇到一个小坑，记录一下。
+
+遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 
+这是">
+<meta property="og:updated_time" content="2017-03-16T14:10:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="android JNI">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着Android NDK/JNI入门做个小demo。在实现的过程中遇到一个小坑，记录一下。
+
+遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 
+这是">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -59,96 +72,58 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/16/jni/" class="archive-article-date">
-  <time datetime="2017-03-16T12:56:57.000Z" itemprop="datePublished">Mar 16</time>
+        <section id="main"><article id="post-jni" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/16/jni/" class="article-date">
+  <time datetime="2017-03-16T12:56:57.000Z" itemprop="datePublished">2017-03-16</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/16/jni/">android JNI</a>
+    <h1 class="article-title" itemprop="name">
+      android JNI
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/15/interview/" class="archive-article-date">
-  <time datetime="2017-03-15T05:46:38.000Z" itemprop="datePublished">Mar 15</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/15/interview/">面试问题总结</a>
-    </h1>
-  
+        <p>&emsp;&emsp;&ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着<a href="http://www.jianshu.com/p/a3e7aacf2252" target="_blank" rel="external">Android NDK/JNI入门</a>做个小demo。在实现的过程中遇到一个小坑，记录一下。</p>
+<ul>
+<li>遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 </li>
+<li>这是我找的一个踩坑文章<a href="http://www.jianshu.com/p/7994e80b506d" target="_blank" rel="external">[Android ]JNI 入门踩坑</a></li>
+</ul>
+<p>后面再慢慢理清jni调用原理。</p>
+<p>&emsp;&emsp;&ensp;资料包括<a href="http://gityuan.com/2016/05/28/android-jni/" target="_blank" rel="external">Android JNI原理分析</a>和<a href="http://wiki.jikexueyuan.com/project/deep-android-v1/jni.html" target="_blank" rel="external">深入理解JNI</a></p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/02/handler/" class="archive-article-date">
-  <time datetime="2017-03-02T13:59:14.000Z" itemprop="datePublished">Mar 2</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/02/handler/">线程间消息机制简析</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/02/hello-world/" class="archive-article-date">
-  <time datetime="2017-03-02T13:24:02.000Z" itemprop="datePublished">Mar 2</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/16/jni/" data-id="cj0ch3qnl0004458remz08o5h" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-    </header>
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/03/15/interview/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">面试问题总结</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
         
