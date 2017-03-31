@@ -3,27 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>android JNI | Hexo</title>
+  <title>ubuntu下遇到识别不了的手机 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;emsp;&amp;emsp;&amp;ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着Android NDK/JNI入门做个小demo。在实现的过程中遇到一个小坑，记录一下。
-
-遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 
-这是">
+  <meta name="description" content="&amp;emsp;&amp;emsp;&amp;ensp;换了东家，换到ubuntu下的开发环境，各种折腾，装好开发环境AS，连上手机，为什么我的荣耀8还是不行呢，配好adb环境变量，adb device,提示手机未被授权，根据提示网址科学上网查看，原来坑爹的ubuntu需要多做一些设置：如果您在 Ubuntu Linux 上开发，则需要为想要在开发中使用的每一种设备类型添加一个包含 USB 配置的 udev 规则文件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android JNI">
-<meta property="og:url" content="http://yoursite.com/2017/03/16/jni/index.html">
+<meta property="og:title" content="ubuntu下遇到识别不了的手机">
+<meta property="og:url" content="http://yoursite.com/2017/03/31/ubuntu-android/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着Android NDK/JNI入门做个小demo。在实现的过程中遇到一个小坑，记录一下。
-
-遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 
-这是">
-<meta property="og:updated_time" content="2017-03-16T14:10:05.000Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;换了东家，换到ubuntu下的开发环境，各种折腾，装好开发环境AS，连上手机，为什么我的荣耀8还是不行呢，配好adb环境变量，adb device,提示手机未被授权，根据提示网址科学上网查看，原来坑爹的ubuntu需要多做一些设置：如果您在 Ubuntu Linux 上开发，则需要为想要在开发中使用的每一种设备类型添加一个包含 USB 配置的 udev 规则文件">
+<meta property="og:updated_time" content="2017-03-31T14:28:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android JNI">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着Android NDK/JNI入门做个小demo。在实现的过程中遇到一个小坑，记录一下。
-
-遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 
-这是">
+<meta name="twitter:title" content="ubuntu下遇到识别不了的手机">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;换了东家，换到ubuntu下的开发环境，各种折腾，装好开发环境AS，连上手机，为什么我的荣耀8还是不行呢，配好adb环境变量，adb device,提示手机未被授权，根据提示网址科学上网查看，原来坑爹的ubuntu需要多做一些设置：如果您在 Ubuntu Linux 上开发，则需要为想要在开发中使用的每一种设备类型添加一个包含 USB 配置的 udev 规则文件">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -72,10 +63,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-jni" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-ubuntu-android" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/03/16/jni/" class="article-date">
-  <time datetime="2017-03-16T12:56:57.000Z" itemprop="datePublished">2017-03-16</time>
+    <a href="/2017/03/31/ubuntu-android/" class="article-date">
+  <time datetime="2017-03-31T14:15:45.000Z" itemprop="datePublished">2017-03-31</time>
 </a>
     
   </div>
@@ -86,7 +77,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      android JNI
+      ubuntu下遇到识别不了的手机
     </h1>
   
 
@@ -94,18 +85,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&emsp;&emsp;&ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着<a href="http://www.jianshu.com/p/a3e7aacf2252" target="_blank" rel="external">Android NDK/JNI入门</a>做个小demo。在实现的过程中遇到一个小坑，记录一下。</p>
-<ul>
-<li>遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 </li>
-<li>这是我找的一个踩坑文章<a href="http://www.jianshu.com/p/7994e80b506d" target="_blank" rel="external">[Android ]JNI 入门踩坑</a></li>
-</ul>
-<p>后面再慢慢理清jni调用原理。</p>
-<p>&emsp;&emsp;&ensp;资料包括<a href="http://gityuan.com/2016/05/28/android-jni/" target="_blank" rel="external">Android JNI原理分析</a>和<a href="http://wiki.jikexueyuan.com/project/deep-android-v1/jni.html" target="_blank" rel="external">深入理解JNI</a></p>
+        <p>&emsp;&emsp;&ensp;换了东家，换到ubuntu下的开发环境，各种折腾，装好开发环境AS，连上手机，为什么我的荣耀8还是不行呢，配好adb环境变量，adb device,提示手机未被授权，根据提示网址<a href="https://developer.android.com/studio/run/device.html" target="_blank" rel="external">科学上网</a>查看，原来坑爹的ubuntu需要多做一些设置：<br>如果您在 Ubuntu Linux 上开发，则需要为想要在开发中使用的每一种设备类型添加一个包含 USB 配置的 udev 规则文件。在规则文件中，每一个设备制造商都由一个唯一的供应商 ID（如 ATTR{idVendor} 属性所指定）标识。要查看供应商 ID 列表，请参见下文的 USB 供应商 ID。要在 Ubuntu Linux 上设置设备检测，请执行以下操作：</p>
+<pre><code>以 root 身份登录，并创建此文件：/etc/udev/rules.d/51-android.rules。
+
+使用下面的格式将各个供应商添加到文件中：
+SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;0bb4&quot;, MODE=&quot;0666&quot;, GROUP=&quot;plugdev&quot;
+
+在本例中，供应商 ID 为 HTC 的 ID。MODE 赋值指定读/写权限，GROUP 则定义哪个 Unix 组拥有设备节点。
+
+注：取决于您的环境，规则语法可能稍有不同。如有需要，请查阅适用于您的系统的 udev 文档。有关规则语法的概述，请参阅编写 udev 规则的指南。
+现在，请执行：
+chmod a+r /etc/udev/rules.d/51-android.rules
+</code></pre><p>&emsp;&emsp;&ensp;后来又去网上搜，结合帖子<a href="http://www.cnblogs.com/benhero/p/4287252.html" target="_blank" rel="external">Ubuntu/Mac彻底解决手机ADB识别问题</a>中提到的<br>先用usb线连接手机<br>终端输入lsusb，获取所有usb信息，如下<br>Bus 002 Device 005: ID 12d1:107e Huawei Technologies Co., Ltd.<br>ID后面就是usb设备商编号，再结合之前的操作就可以了。    </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/16/jni/" data-id="cj0xy4vl70002pw8rmc28za50" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/31/ubuntu-android/" data-id="cj0xy4vlh0005pw8r095ml8u3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,19 +110,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/03/16/gradle/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          gradle入门
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/03/15/interview/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/03/30/GreenDao/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">面试问题总结</div>
+      <div class="article-nav-title">GreenDao在老项目中的使用</div>
     </a>
   
 </nav>

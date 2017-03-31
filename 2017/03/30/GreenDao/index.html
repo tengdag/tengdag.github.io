@@ -3,14 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: android 基础复习 | Hexo</title>
+  <title>GreenDao在老项目中的使用 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/android-基础复习/index.html">
+  <meta name="description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近看了下greenDao,到3.3版本配合上gradle插件就很好用，刚好公司项目的sqlite想向orm框架迁移，我在预研的踩坑过程记录下来。首先根据官方文档配置好gradle文件，值得一提的是，在module目录下你可以增加如下配置
+greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage &amp;apos;co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GreenDao在老项目中的使用">
+<meta property="og:url" content="http://yoursite.com/2017/03/30/GreenDao/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近看了下greenDao,到3.3版本配合上gradle插件就很好用，刚好公司项目的sqlite想向orm框架迁移，我在预研的踩坑过程记录下来。首先根据官方文档配置好gradle文件，值得一提的是，在module目录下你可以增加如下配置
+greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage &amp;apos;co">
+<meta property="og:updated_time" content="2017-03-31T14:47:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="GreenDao在老项目中的使用">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近看了下greenDao,到3.3版本配合上gradle插件就很好用，刚好公司项目的sqlite想向orm框架迁移，我在预研的踩坑过程记录下来。首先根据官方文档配置好gradle文件，值得一提的是，在module目录下你可以增加如下配置
+greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage &amp;apos;co">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -59,39 +72,69 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/02/handler/" class="archive-article-date">
-  <time datetime="2017-03-02T13:59:14.000Z" itemprop="datePublished">Mar 2</time>
+        <section id="main"><article id="post-GreenDao" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/30/GreenDao/" class="article-date">
+  <time datetime="2017-03-30T15:14:37.000Z" itemprop="datePublished">2017-03-30</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/02/handler/">线程间消息机制简析</a>
+    <h1 class="article-title" itemprop="name">
+      GreenDao在老项目中的使用
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;最近看了下greenDao,到3.3版本配合上gradle插件就很好用，刚好公司项目的sqlite想向orm框架迁移，我在预研的踩坑过程记录下来。首先根据官方文档配置好gradle文件，值得一提的是，在module目录下你可以增加如下配置</p>
+<pre><code>greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage &apos;com.tengdag.myframwork.greendao&apos;//设置DaoMaster、DaoSession、Dao包名
+    targetGenDir &apos;src/main/java&apos;//设置DaoMaster、DaoSession、Dao目录
+    //targetGenDirTest：设置生成单元测试目录
+    //generateTests：设置自动生成单元测试用例
+}
+</code></pre><p>&emsp;&emsp;&ensp;已有项目中的数据库替换方式如下</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/30/GreenDao/" data-id="cj0xy4vkz0000pw8rqi4tu13a" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/31/ubuntu-android/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ubuntu下遇到识别不了的手机
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/16/gradle/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">gradle入门</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
         

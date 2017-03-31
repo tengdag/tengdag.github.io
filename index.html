@@ -61,6 +61,136 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ubuntu-android" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/31/ubuntu-android/" class="article-date">
+  <time datetime="2017-03-31T14:15:45.000Z" itemprop="datePublished">2017-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/31/ubuntu-android/">ubuntu下遇到识别不了的手机</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;换了东家，换到ubuntu下的开发环境，各种折腾，装好开发环境AS，连上手机，为什么我的荣耀8还是不行呢，配好adb环境变量，adb device,提示手机未被授权，根据提示网址<a href="https://developer.android.com/studio/run/device.html" target="_blank" rel="external">科学上网</a>查看，原来坑爹的ubuntu需要多做一些设置：<br>如果您在 Ubuntu Linux 上开发，则需要为想要在开发中使用的每一种设备类型添加一个包含 USB 配置的 udev 规则文件。在规则文件中，每一个设备制造商都由一个唯一的供应商 ID（如 ATTR{idVendor} 属性所指定）标识。要查看供应商 ID 列表，请参见下文的 USB 供应商 ID。要在 Ubuntu Linux 上设置设备检测，请执行以下操作：</p>
+<pre><code>以 root 身份登录，并创建此文件：/etc/udev/rules.d/51-android.rules。
+
+使用下面的格式将各个供应商添加到文件中：
+SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;0bb4&quot;, MODE=&quot;0666&quot;, GROUP=&quot;plugdev&quot;
+
+在本例中，供应商 ID 为 HTC 的 ID。MODE 赋值指定读/写权限，GROUP 则定义哪个 Unix 组拥有设备节点。
+
+注：取决于您的环境，规则语法可能稍有不同。如有需要，请查阅适用于您的系统的 udev 文档。有关规则语法的概述，请参阅编写 udev 规则的指南。
+现在，请执行：
+chmod a+r /etc/udev/rules.d/51-android.rules
+</code></pre><p>&emsp;&emsp;&ensp;后来又去网上搜，结合帖子<a href="http://www.cnblogs.com/benhero/p/4287252.html" target="_blank" rel="external">Ubuntu/Mac彻底解决手机ADB识别问题</a>中提到的<br>先用usb线连接手机<br>终端输入lsusb，获取所有usb信息，如下<br>Bus 002 Device 005: ID 12d1:107e Huawei Technologies Co., Ltd.<br>ID后面就是usb设备商编号，再结合之前的操作就可以了。    </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/31/ubuntu-android/" data-id="cj0xy4vlh0005pw8r095ml8u3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-GreenDao" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/30/GreenDao/" class="article-date">
+  <time datetime="2017-03-30T15:14:37.000Z" itemprop="datePublished">2017-03-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/30/GreenDao/">GreenDao在老项目中的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;最近看了下greenDao,到3.3版本配合上gradle插件就很好用，刚好公司项目的sqlite想向orm框架迁移，我在预研的踩坑过程记录下来。首先根据官方文档配置好gradle文件，值得一提的是，在module目录下你可以增加如下配置</p>
+<pre><code>greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage &apos;com.tengdag.myframwork.greendao&apos;//设置DaoMaster、DaoSession、Dao包名
+    targetGenDir &apos;src/main/java&apos;//设置DaoMaster、DaoSession、Dao目录
+    //targetGenDirTest：设置生成单元测试目录
+    //generateTests：设置自动生成单元测试用例
+}
+</code></pre><p>&emsp;&emsp;&ensp;已有项目中的数据库替换方式如下</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/30/GreenDao/" data-id="cj0xy4vkz0000pw8rqi4tu13a" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-gradle" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/16/gradle/" class="article-date">
+  <time datetime="2017-03-16T14:18:44.000Z" itemprop="datePublished">2017-03-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/16/gradle/">gradle入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;先占坑，后面慢慢填</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/16/gradle/" data-id="cj0xy4vle0004pw8rieuyro46" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-jni" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/03/16/jni/" class="article-date">
@@ -94,7 +224,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/16/jni/" data-id="cj0ch3qnl0004458remz08o5h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/16/jni/" data-id="cj0xy4vl70002pw8rmc28za50" class="article-share-link">Share</a>
       
       
     </footer>
@@ -143,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/15/interview/" data-id="cj0ch3qnk0003458rmjdctj4l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/15/interview/" data-id="cj0xy4vlq0008pw8r69e5pfg0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -309,7 +439,7 @@ public T get() {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/02/handler/" data-id="cj0ch3qn40000458rwam34nqn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/02/handler/" data-id="cj0xy4vl40001pw8r8pwj588h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-基础复习/">android 基础复习</a></li></ul>
@@ -356,7 +486,7 @@ public T get() {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/02/hello-world/" data-id="cj0ch3qnb0001458rs3g447f4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/02/hello-world/" data-id="cj0xy4vll0006pw8rdxnr11oz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -410,19 +540,23 @@ public T get() {
       <ul>
         
           <li>
+            <a href="/2017/03/31/ubuntu-android/">ubuntu下遇到识别不了的手机</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/30/GreenDao/">GreenDao在老项目中的使用</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/16/gradle/">gradle入门</a>
+          </li>
+        
+          <li>
             <a href="/2017/03/16/jni/">android JNI</a>
           </li>
         
           <li>
             <a href="/2017/03/15/interview/">面试问题总结</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/02/handler/">线程间消息机制简析</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/02/hello-world/">Hello World</a>
           </li>
         
       </ul>
