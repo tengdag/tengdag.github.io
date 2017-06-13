@@ -3,27 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>LayoutInflater.inflate | Hexo</title>
+  <title>android_installer_open_problem | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;emsp;&amp;emsp;&amp;ensp;前段时间提取拨号键盘控件，使用的是XML资源文件，结果一直没有内容，用Layout-inspector查看也是没有内容，几经排查发现原来是在引入ui时使用inflate（）不当导致的，具体看源码
-/**
- * Inflate a new view hierarchy from the specified xml resource. Throws
- * {@lin">
+  <meta name="description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近在新公司项目中遇到一个问题，安装apk，如果使用市场或者是直接用apk安装，完成后选择打开app，这时候按home键退出app，再点击app图标，会出现重复打开启动页的情况，在控制台使用如下命令：
+adb shell dumpsys activity
+就可以看到启动页的activity有两条，后面参照关于应用第一次安装打开，点击home键，然后再点击图标打开">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LayoutInflater.inflate">
-<meta property="og:url" content="http://yoursite.com/2017/04/17/LayoutInflater-inflate/index.html">
+<meta property="og:title" content="android_installer_open_problem">
+<meta property="og:url" content="http://yoursite.com/2017/06/13/android-installer-open-problem/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;前段时间提取拨号键盘控件，使用的是XML资源文件，结果一直没有内容，用Layout-inspector查看也是没有内容，几经排查发现原来是在引入ui时使用inflate（）不当导致的，具体看源码
-/**
- * Inflate a new view hierarchy from the specified xml resource. Throws
- * {@lin">
-<meta property="og:updated_time" content="2017-04-17T14:49:53.000Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近在新公司项目中遇到一个问题，安装apk，如果使用市场或者是直接用apk安装，完成后选择打开app，这时候按home键退出app，再点击app图标，会出现重复打开启动页的情况，在控制台使用如下命令：
+adb shell dumpsys activity
+就可以看到启动页的activity有两条，后面参照关于应用第一次安装打开，点击home键，然后再点击图标打开">
+<meta property="og:updated_time" content="2017-06-13T15:08:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LayoutInflater.inflate">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;前段时间提取拨号键盘控件，使用的是XML资源文件，结果一直没有内容，用Layout-inspector查看也是没有内容，几经排查发现原来是在引入ui时使用inflate（）不当导致的，具体看源码
-/**
- * Inflate a new view hierarchy from the specified xml resource. Throws
- * {@lin">
+<meta name="twitter:title" content="android_installer_open_problem">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近在新公司项目中遇到一个问题，安装apk，如果使用市场或者是直接用apk安装，完成后选择打开app，这时候按home键退出app，再点击app图标，会出现重复打开启动页的情况，在控制台使用如下命令：
+adb shell dumpsys activity
+就可以看到启动页的activity有两条，后面参照关于应用第一次安装打开，点击home键，然后再点击图标打开">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -72,10 +69,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-LayoutInflater-inflate" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-android-installer-open-problem" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/04/17/LayoutInflater-inflate/" class="article-date">
-  <time datetime="2017-04-17T14:40:34.000Z" itemprop="datePublished">2017-04-17</time>
+    <a href="/2017/06/13/android-installer-open-problem/" class="article-date">
+  <time datetime="2017-06-13T14:41:58.000Z" itemprop="datePublished">2017-06-13</time>
 </a>
     
   </div>
@@ -86,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      LayoutInflater.inflate
+      android_installer_open_problem
     </h1>
   
 
@@ -94,46 +91,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&emsp;&emsp;&ensp;前段时间提取拨号键盘控件，使用的是XML资源文件，结果一直没有内容，用Layout-inspector查看也是没有内容，几经排查发现原来是在引入ui时使用inflate（）不当导致的，具体看源码</p>
-<pre><code>/**
- * Inflate a new view hierarchy from the specified xml resource. Throws
- * {@link InflateException} if there is an error.
- * 
- * @param resource ID for an XML layout resource to load (e.g.,
- *        &lt;code&gt;R.layout.main_page&lt;/code&gt;)
- * @param root Optional view to be the parent of the generated hierarchy.
- * @return The root View of the inflated hierarchy. If root was supplied,
- *         this is the root View; otherwise it is the root of the inflated
- *         XML file.
- */
- View convertView = inflater.inflate(R.layout.layout_dialpad,null);
-</code></pre><p>因为我是直接继承LinearLayout，作为控件容器，但是父容器却置为null，这就导致控件和资源文件的脱节。</p>
+        <p>&emsp;&emsp;&ensp;最近在新公司项目中遇到一个问题，安装apk，如果使用市场或者是直接用apk安装，完成后选择打开app，这时候按home键退出app，再点击app图标，会出现重复打开启动页的情况，在控制台使用如下命令：</p>
+<pre><code>adb shell dumpsys activity
+</code></pre><p>就可以看到启动页的activity有两条，后面参照<a href="http://46aae4d1e2371e4aa769798941cef698.devproxy.yunshipei.com/ccfcccfc/article/details/43792533#" target="_blank" rel="external">关于应用第一次安装打开，点击home键，然后再点击图标打开时，重复打开页面问题</a>和<a href="http://www.jianshu.com/p/b202690b7d96" target="_blank" rel="external">关于Android应用回到桌面会重复打开闪屏页</a>给出的方案使用如下代码解决问题：</p>
+<pre><code>protected void onCreate(Bundle savedInstanceState) {  
+if ((getIntent().getFlags() &amp; Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {  
+    finish();  
+    return;  
+    }  
+    super.onCreate(savedInstanceState);  
+} 
+</code></pre><p>&emsp;&emsp;&ensp;这样是可以解决重复启动启动页的问题，但是原来的项目中把这个方法作为父类方法使用，在其他activity没问题，其中用到某个Bactivity是在外部启动后台app的这个Bactivity，这时候Bactivity就只能使用FLAG_ACTIVITY_NEW_TASK，由于是从后台到前台，又会加入FLAG_ACTIVITY_BROUGHT_TO_FRONT，所以导致Bactivity一启动就finish掉，总算解决已有项目中的一小团乱麻。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/04/17/LayoutInflater-inflate/" data-id="cj3vpdeox0002xk8rrryebpnb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/06/13/android-installer-open-problem/" data-id="cj3vpdeov0001xk8re2jpbbeg" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-问题/">android 问题</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2017/04/21/gradle-plugin/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          INSTALL_PARSE_FAILED_NO_CERTIFICATES
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/03/31/ubuntu-android/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/05/11/gridview-delete-item/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">ubuntu下遇到识别不了的手机</div>
+      <div class="article-nav-title">gridview_delete_item</div>
     </a>
   
 </nav>
