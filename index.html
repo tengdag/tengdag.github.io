@@ -61,6 +61,132 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-keyguard-secure" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/19/keyguard-secure/" class="article-date">
+  <time datetime="2017-06-19T13:58:38.000Z" itemprop="datePublished">2017-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/19/keyguard-secure/">判断是否有锁屏密码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;最近项目中用到锁屏页面的操作，有锁屏密码和没有锁屏密码的操作是不一样的，这就要求我们判断是否有锁屏密码，根据网上的资料<a href="http://blog.csdn.net/zzx410527/article/details/51943636" target="_blank" rel="external">Android手机如何判断有没有锁屏密码</a>，实测后，在6.0以下的机子可用，但是在6.0以上就不行了，后来查询源码，发现现在反射的方法已经修改了</p>
+<pre><code>/**
+ * Used by device policy manager to validate the current password
+ * information it has.
+ */
+public int getActivePasswordQuality(int userId) {
+    int quality = getKeyguardStoredPasswordQuality(userId);
+    if (isLockPasswordEnabled(quality, userId)) {
+        // Quality is a password and a password exists. Return the quality.
+        return quality;
+    }
+    if (isLockPatternEnabled(quality, userId)) {
+        // Quality is a pattern and a pattern exists. Return the quality.
+        return quality;
+    }
+    return DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED;
+}
+</code></pre><p>多了一个参数，结合注释，是userId，各种方法试过，获取到userId，可是都反射调用失败，后来再查看<a href="http://blog.csdn.net/ocean2006/article/details/8079457" target="_blank" rel="external">Keyguard解锁屏机制</a>后发现有关屏幕锁的api，在其中查找到两个方法</p>
+<pre><code> /**
+ * Return whether the keyguard is secured by a PIN, pattern or password or a SIM card
+ * is currently locked.
+ *
+ * &lt;p&gt;See also {@link #isDeviceSecure()} which ignores SIM locked states.
+ *
+ * @return true if a PIN, pattern or password is set or a SIM card is locked.
+ */
+public boolean isKeyguardSecure() {
+    try {
+        return mWM.isKeyguardSecure();
+    } catch (RemoteException ex) {
+        return false;
+    }
+}
+
+ /**
+ * Returns whether the device is secured with a PIN, pattern or
+ * password.
+ *
+ * &lt;p&gt;See also {@link #isKeyguardSecure} which treats SIM locked states as secure.
+ *
+ * @return true if a PIN, pattern or password was set.
+ */
+public boolean isDeviceSecure() {
+    return isDeviceSecure(UserHandle.getCallingUserId());
+}
+</code></pre><p>第一个方法就是判断是否有锁屏密码或者sim卡的密码，第二个方法是去掉sim卡的密码，查阅官方文档，第二个方法是6.0之后才加入的方法，很好，这就是我的解决方案了，6.0之后的使用isDeviceSecure()，6.0之前的使用反射方法。</p>
+<pre><code>private static boolean judgePhoneHasLockOld(Context context) {
+    String LOCKSCREEN_UTILS = &quot;com.android.internal.widget.LockPatternUtils&quot;;
+    try {
+        Class&lt;?&gt; lockUtilsClass = Class.forName(LOCKSCREEN_UTILS);
+        Object lockUtils = lockUtilsClass.getConstructor(Context.class).newInstance(context);
+        Method method = lockUtilsClass.getMethod(&quot;getActivePasswordQuality&quot;);
+        Integer mode = (Integer) method.invoke(lockUtils);
+        if (mode == DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED) {
+            Logger.i(TAG, &quot;isPhoneHasLock===&quot; + false);
+            return false;
+        } else {
+            Logger.i(TAG, &quot;isPhoneHasLock===&quot; + true);
+            return true;
+        }
+    } catch (Exception e) {
+        Logger.e(TAG, &quot;reflectInternalUtils    ex:&quot; + e);
+    }
+
+    return false;
+}
+
+@RequiresApi(api = Build.VERSION_CODES.M)
+private static boolean judgePhoneHasLockNew(Context context) {
+    KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+    boolean isDeviceSecure = keyguardManager.isDeviceSecure();
+    Logger.i(TAG, &quot;isPhoneHasLock===&quot; + isDeviceSecure);
+    return isDeviceSecure;
+}
+
+/**
+ * 判断是否有锁屏密码
+ * @param context
+ * @return
+ */
+public static boolean judgePhoneHasLock(Context context) {
+    if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.M) {
+        return judgePhoneHasLockOld(context);
+    } else {
+        return judgePhoneHasLockNew(context);
+    }
+}
+</code></pre><p>至于为何不能使用反射的方法调用getActivePasswordQuality(int userId)，估计要去看官方源码才能解释了，暂时就到这里了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/19/keyguard-secure/" data-id="cj4499pn0000fu18rilexpgn7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-screenlock/">android screenlock</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-android-installer-open-problem" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/06/13/android-installer-open-problem/" class="article-date">
@@ -98,7 +224,7 @@ if ((getIntent().getFlags() &amp; Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/13/android-installer-open-problem/" data-id="cj3vpdeov0001xk8re2jpbbeg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/06/13/android-installer-open-problem/" data-id="cj4499pm80002u18rkzox4ln5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-问题/">android 问题</a></li></ul>
@@ -137,7 +263,7 @@ if ((getIntent().getFlags() &amp; Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/11/gridview-delete-item/" data-id="cj3vpdepd0006xk8r0m1gpttn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/11/gridview-delete-item/" data-id="cj4499pms0006u18rv7zgwfgo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/平时问题/">平时问题</a></li></ul>
@@ -194,7 +320,7 @@ signingConfigs {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/04/21/gradle-plugin/" data-id="cj3vpdep80004xk8rlhiz7dde" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/04/21/gradle-plugin/" data-id="cj4499pmb0003u18rj55jjuq4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gradle/">gradle</a></li></ul>
@@ -246,7 +372,7 @@ signingConfigs {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/04/17/LayoutInflater-inflate/" data-id="cj3vpdeox0002xk8rrryebpnb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/04/17/LayoutInflater-inflate/" data-id="cj4499pm60001u18rkatvfvro" class="article-share-link">Share</a>
       
       
     </footer>
@@ -294,7 +420,7 @@ chmod a+r /etc/udev/rules.d/51-android.rules
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/31/ubuntu-android/" data-id="cj3vpdepr000gxk8r9iqzhjbj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/31/ubuntu-android/" data-id="cj4499pn2000hu18rp4sztmew" class="article-share-link">Share</a>
       
       
     </footer>
@@ -339,7 +465,7 @@ chmod a+r /etc/udev/rules.d/51-android.rules
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/30/GreenDao/" data-id="cj3vpdeop0000xk8rss26sn0c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/30/GreenDao/" data-id="cj4499plz0000u18rail1xfo7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -376,7 +502,7 @@ chmod a+r /etc/udev/rules.d/51-android.rules
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/16/gradle/" data-id="cj3vpdepb0005xk8ry16ov6el" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/16/gradle/" data-id="cj4499pml0005u18rmoi9hm6r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -419,7 +545,7 @@ chmod a+r /etc/udev/rules.d/51-android.rules
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/16/jni/" data-id="cj3vpdepn000cxk8rtxq2gdyf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/16/jni/" data-id="cj4499pmz000du18rq7xoz04i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -468,177 +594,9 @@ chmod a+r /etc/udev/rules.d/51-android.rules
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/15/interview/" data-id="cj3vpdepp000exk8rjzeb768l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/15/interview/" data-id="cj4499pmy000bu18r5dq55hf3" class="article-share-link">Share</a>
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-handler" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/02/handler/" class="article-date">
-  <time datetime="2017-03-02T13:59:14.000Z" itemprop="datePublished">2017-03-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/02/handler/">线程间消息机制简析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;&ensp;每个app启动的时候，都会创建自己的进程，并且生成一个处理四大组件的主线程，主线程管理一个消息队列，为避免ANR，我们必须把耗时操作放在子线程中。子线程和主线程的交互通讯就要通过handler、looper、message、messagequeue机制处理。我们先看看平常用的handler构造函数，注释中写明，默认构造函数关联的是当前的线程的Looper。</p>
-<pre><code>/**
- * Default constructor associates this handler with the {@link Looper} for the
- * current thread.
- *
- * If this thread does not have a looper, this handler won&apos;t be able to receive messages
- * so an exception is thrown.
- */
-public Handler() {
-    this(null, false);
-}
-</code></pre><p>&emsp;&emsp;&ensp;在Activity中有activityThread，默认创建looper。在主线程中构造handler可以直接使用，而在子线程中如果没有先调用Looper.preper()直接创建handler会报异常。</p>
-<pre><code>mLooper = Looper.myLooper();
-if (mLooper == null) {
-        throw new RuntimeException(
-            &quot;Can&apos;t create handler inside thread that has not called Looper.prepare()&quot;);
-}
-</code></pre><p>&emsp;&emsp;&ensp;Loop是循环的意思，实际上Looper也是维持一个消息队列的死循环，当没有消息时这个循环是阻塞的，直到handler发送消息到队列中，阻塞消除，处理消息队列，并下发消息，处理完消息，重新回到阻塞状态。</p>
-<pre><code> /**
- * Run the message queue in this thread. Be sure to call
- * {@link #quit()} to end the loop.
- */
-public static void loop() {
-    final Looper me = myLooper();
-    if (me == null) {
-        throw new RuntimeException(&quot;No Looper; Looper.prepare() wasn&apos;t called on this thread.&quot;);
-    }
-    final MessageQueue queue = me.mQueue;
-
-    // Make sure the identity of this thread is that of the local process,
-    // and keep track of what that identity token actually is.
-    Binder.clearCallingIdentity();
-    final long ident = Binder.clearCallingIdentity();
-
-    for (;;) {//1
-        Message msg = queue.next(); // might block
-        if (msg == null) {
-            // No message indicates that the message queue is quitting.
-            return;
-        }
-
-        // This must be in a local variable, in case a UI event sets the logger
-        final Printer logging = me.mLogging;
-        if (logging != null) {
-            logging.println(&quot;&gt;&gt;&gt;&gt;&gt; Dispatching to &quot; + msg.target + &quot; &quot; +
-                    msg.callback + &quot;: &quot; + msg.what);
-        }
-
-        final long traceTag = me.mTraceTag;
-        if (traceTag != 0) {
-            Trace.traceBegin(traceTag, msg.target.getTraceName(msg));
-        }
-        try {
-            msg.target.dispatchMessage(msg);//2
-        } finally {
-            if (traceTag != 0) {
-                Trace.traceEnd(traceTag);
-            }
-        }
-
-        if (logging != null) {
-            logging.println(&quot;&lt;&lt;&lt;&lt;&lt; Finished to &quot; + msg.target + &quot; &quot; + msg.callback);
-        }
-
-        // Make sure that during the course of dispatching the
-        // identity of the thread wasn&apos;t corrupted.
-        final long newIdent = Binder.clearCallingIdentity();
-        if (ident != newIdent) {
-            Log.wtf(TAG, &quot;Thread identity changed from 0x&quot;
-                    + Long.toHexString(ident) + &quot; to 0x&quot;
-                    + Long.toHexString(newIdent) + &quot; while dispatching to &quot;
-                    + msg.target.getClass().getName() + &quot; &quot;
-                    + msg.callback + &quot; what=&quot; + msg.what);
-        }
-
-        msg.recycleUnchecked();
-    }
-}
-</code></pre><p>&emsp;&emsp;&ensp;我们看源码，非主线程要和自己的Looper关联，必须调用prepar()，而且每个线程只能关联一个Looper，那不同的线程是如何获取自己的Looper，这就必须看ThreadLocal。</p>
-<pre><code>/** Initialize the current thread as a looper.
-  * This gives you a chance to create handlers that then reference
-  * this looper, before actually starting the loop. Be sure to call
-  * {@link #loop()} after calling this method, and end it by calling
-  * {@link #quit()}.
-  */
-public static void prepare() {
-    prepare(true);
-}
-private static void prepare(boolean quitAllowed) {
-    if (sThreadLocal.get() != null) {
-        throw new RuntimeException(&quot;Only one Looper may be created per thread&quot;);
-    }
-    sThreadLocal.set(new Looper(quitAllowed));
-}
-</code></pre><p>&emsp;&emsp;&ensp;ThreadLocal中主要看两个方法set和get方法，简单的说，ThreadLocal保存的key是线程，value是Looper。详细的介绍见<br><a href="http://blog.csdn.net/singwhatiwanna/article/details/48350919" target="_blank" rel="external">Android的消息机制之ThreadLocal的工作原理</a></p>
-<pre><code>/**
- * Sets the current thread&apos;s copy of this thread-local variable
- * to the specified value.  Most subclasses will have no need to
- * override this method, relying solely on the {@link #initialValue}
- * method to set the values of thread-locals.
- *
- * @param value the value to be stored in the current thread&apos;s copy of
- *        this thread-local.
- */
-public void set(T value) {
-    Thread t = Thread.currentThread();
-    ThreadLocalMap map = getMap(t);
-    if (map != null)
-        map.set(this, value);
-    else
-        createMap(t, value);
-}
-/**
- * Returns the value in the current thread&apos;s copy of this
- * thread-local variable.  If the variable has no value for the
- * current thread, it is first initialized to the value returned
- * by an invocation of the {@link #initialValue} method.
- *
- * @return the current thread&apos;s value of this thread-local
- */
-public T get() {
-    Thread t = Thread.currentThread();
-    ThreadLocalMap map = getMap(t);
-    if (map != null) {
-        ThreadLocalMap.Entry e = map.getEntry(this);
-        if (e != null)
-            return (T)e.value;
-    }
-    return setInitialValue();
-}
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/02/handler/" data-id="cj3vpdepk0009xk8rvzwxdeg3" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-基础复习/">android 基础复习</a></li></ul>
-
     </footer>
   </div>
   
@@ -662,7 +620,7 @@ public T get() {
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-基础复习/">android 基础复习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-问题/">android 问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/平时问题/">平时问题</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-screenlock/">android screenlock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-基础复习/">android 基础复习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-问题/">android 问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/平时问题/">平时问题</a></li></ul>
     </div>
   </div>
 
@@ -672,7 +630,7 @@ public T get() {
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/android-基础复习/" style="font-size: 10px;">android 基础复习</a> <a href="/tags/android-问题/" style="font-size: 10px;">android 问题</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/平时问题/" style="font-size: 10px;">平时问题</a>
+      <a href="/tags/android-screenlock/" style="font-size: 10px;">android screenlock</a> <a href="/tags/android-基础复习/" style="font-size: 10px;">android 基础复习</a> <a href="/tags/android-问题/" style="font-size: 10px;">android 问题</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/平时问题/" style="font-size: 10px;">平时问题</a>
     </div>
   </div>
 
@@ -694,6 +652,10 @@ public T get() {
       <ul>
         
           <li>
+            <a href="/2017/06/19/keyguard-secure/">判断是否有锁屏密码</a>
+          </li>
+        
+          <li>
             <a href="/2017/06/13/android-installer-open-problem/">android_installer_open_problem</a>
           </li>
         
@@ -707,10 +669,6 @@ public T get() {
         
           <li>
             <a href="/2017/04/17/LayoutInflater-inflate/">LayoutInflater.inflate</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/31/ubuntu-android/">ubuntu下遇到识别不了的手机</a>
           </li>
         
       </ul>

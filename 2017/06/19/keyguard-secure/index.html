@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>判断是否有锁屏密码 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近项目中用到锁屏页面的操作，有锁屏密码和没有锁屏密码的操作是不一样的，这就要求我们判断是否有锁屏密码，根据网上的资料Android手机如何判断有没有锁屏密码，实测后，在6.0以下的机子可用，但是在6.0以上就不行了，后来查询源码，发现现在反射的方法已经修改了
+/**
+ * Used by device policy manager to validate th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="判断是否有锁屏密码">
+<meta property="og:url" content="http://yoursite.com/2017/06/19/keyguard-secure/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近项目中用到锁屏页面的操作，有锁屏密码和没有锁屏密码的操作是不一样的，这就要求我们判断是否有锁屏密码，根据网上的资料Android手机如何判断有没有锁屏密码，实测后，在6.0以下的机子可用，但是在6.0以上就不行了，后来查询源码，发现现在反射的方法已经修改了
+/**
+ * Used by device policy manager to validate th">
+<meta property="og:updated_time" content="2017-06-19T14:47:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="判断是否有锁屏密码">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近项目中用到锁屏页面的操作，有锁屏密码和没有锁屏密码的操作是不一样的，这就要求我们判断是否有锁屏密码，根据网上的资料Android手机如何判断有没有锁屏密码，实测后，在6.0以下的机子可用，但是在6.0以上就不行了，后来查询源码，发现现在反射的方法已经修改了
+/**
+ * Used by device policy manager to validate th">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-keyguard-secure" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/19/keyguard-secure/" class="article-date">
+  <time datetime="2017-06-19T13:58:38.000Z" itemprop="datePublished">2017-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      判断是否有锁屏密码
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;最近项目中用到锁屏页面的操作，有锁屏密码和没有锁屏密码的操作是不一样的，这就要求我们判断是否有锁屏密码，根据网上的资料<a href="http://blog.csdn.net/zzx410527/article/details/51943636" target="_blank" rel="external">Android手机如何判断有没有锁屏密码</a>，实测后，在6.0以下的机子可用，但是在6.0以上就不行了，后来查询源码，发现现在反射的方法已经修改了</p>
+<pre><code>/**
+ * Used by device policy manager to validate the current password
+ * information it has.
+ */
+public int getActivePasswordQuality(int userId) {
+    int quality = getKeyguardStoredPasswordQuality(userId);
+    if (isLockPasswordEnabled(quality, userId)) {
+        // Quality is a password and a password exists. Return the quality.
+        return quality;
+    }
+    if (isLockPatternEnabled(quality, userId)) {
+        // Quality is a pattern and a pattern exists. Return the quality.
+        return quality;
+    }
+    return DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED;
+}
+</code></pre><p>多了一个参数，结合注释，是userId，各种方法试过，获取到userId，可是都反射调用失败，后来再查看<a href="http://blog.csdn.net/ocean2006/article/details/8079457" target="_blank" rel="external">Keyguard解锁屏机制</a>后发现有关屏幕锁的api，在其中查找到两个方法</p>
+<pre><code> /**
+ * Return whether the keyguard is secured by a PIN, pattern or password or a SIM card
+ * is currently locked.
+ *
+ * &lt;p&gt;See also {@link #isDeviceSecure()} which ignores SIM locked states.
+ *
+ * @return true if a PIN, pattern or password is set or a SIM card is locked.
+ */
+public boolean isKeyguardSecure() {
+    try {
+        return mWM.isKeyguardSecure();
+    } catch (RemoteException ex) {
+        return false;
+    }
+}
+
+ /**
+ * Returns whether the device is secured with a PIN, pattern or
+ * password.
+ *
+ * &lt;p&gt;See also {@link #isKeyguardSecure} which treats SIM locked states as secure.
+ *
+ * @return true if a PIN, pattern or password was set.
+ */
+public boolean isDeviceSecure() {
+    return isDeviceSecure(UserHandle.getCallingUserId());
+}
+</code></pre><p>第一个方法就是判断是否有锁屏密码或者sim卡的密码，第二个方法是去掉sim卡的密码，查阅官方文档，第二个方法是6.0之后才加入的方法，很好，这就是我的解决方案了，6.0之后的使用isDeviceSecure()，6.0之前的使用反射方法。</p>
+<pre><code>private static boolean judgePhoneHasLockOld(Context context) {
+    String LOCKSCREEN_UTILS = &quot;com.android.internal.widget.LockPatternUtils&quot;;
+    try {
+        Class&lt;?&gt; lockUtilsClass = Class.forName(LOCKSCREEN_UTILS);
+        Object lockUtils = lockUtilsClass.getConstructor(Context.class).newInstance(context);
+        Method method = lockUtilsClass.getMethod(&quot;getActivePasswordQuality&quot;);
+        Integer mode = (Integer) method.invoke(lockUtils);
+        if (mode == DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED) {
+            Logger.i(TAG, &quot;isPhoneHasLock===&quot; + false);
+            return false;
+        } else {
+            Logger.i(TAG, &quot;isPhoneHasLock===&quot; + true);
+            return true;
+        }
+    } catch (Exception e) {
+        Logger.e(TAG, &quot;reflectInternalUtils    ex:&quot; + e);
+    }
+
+    return false;
+}
+
+@RequiresApi(api = Build.VERSION_CODES.M)
+private static boolean judgePhoneHasLockNew(Context context) {
+    KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+    boolean isDeviceSecure = keyguardManager.isDeviceSecure();
+    Logger.i(TAG, &quot;isPhoneHasLock===&quot; + isDeviceSecure);
+    return isDeviceSecure;
+}
+
+/**
+ * 判断是否有锁屏密码
+ * @param context
+ * @return
+ */
+public static boolean judgePhoneHasLock(Context context) {
+    if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.M) {
+        return judgePhoneHasLockOld(context);
+    } else {
+        return judgePhoneHasLockNew(context);
+    }
+}
+</code></pre><p>至于为何不能使用反射的方法调用getActivePasswordQuality(int userId)，估计要去看官方源码才能解释了，暂时就到这里了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/19/keyguard-secure/" data-id="cj4499pn0000fu18rilexpgn7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-screenlock/">android screenlock</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/06/13/android-installer-open-problem/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">android_installer_open_problem</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-screenlock/">android screenlock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-基础复习/">android 基础复习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-问题/">android 问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/平时问题/">平时问题</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android-screenlock/" style="font-size: 10px;">android screenlock</a> <a href="/tags/android-基础复习/" style="font-size: 10px;">android 基础复习</a> <a href="/tags/android-问题/" style="font-size: 10px;">android 问题</a> <a href="/tags/gradle/" style="font-size: 10px;">gradle</a> <a href="/tags/平时问题/" style="font-size: 10px;">平时问题</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/06/19/keyguard-secure/">判断是否有锁屏密码</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/13/android-installer-open-problem/">android_installer_open_problem</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/11/gridview-delete-item/">gridview_delete_item</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/21/gradle-plugin/">INSTALL_PARSE_FAILED_NO_CERTIFICATES</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/17/LayoutInflater-inflate/">LayoutInflater.inflate</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
