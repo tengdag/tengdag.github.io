@@ -61,6 +61,120 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-保活过程的踩坑经历-二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/04/保活过程的踩坑经历-二/" class="article-date">
+  <time datetime="2018-03-04T14:21:56.000Z" itemprop="datePublished">2018-03-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/04/保活过程的踩坑经历-二/">保活过程的踩坑经历(二)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;接上期的保活过程踩坑经历，除了java层遇到的问题，在这过程中还遇到了jni层的问题JNI ERROR (app bug): local reference table overflow (max=512)说的是本地引用数超过了512，这个错误在安卓8.0以下都有可能遇到。所以我就只能一点一点的排查jni层的代码，一个方法一个方法的检查，最终发现问题出在一个回调方法中，对本地的引用未进行及时释放导致的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/04/保活过程的踩坑经历-二/" data-id="cjecw57sw000kx08r9zifhubj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-保活过程的踩坑经历" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/03/保活过程的踩坑经历/" class="article-date">
+  <time datetime="2018-03-03T08:51:41.000Z" itemprop="datePublished">2018-03-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/03/保活过程的踩坑经历/">保活过程的踩坑经历</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;去年公司在sip通话app终于要在国内推广了，之前的app只支持国外的谷歌推送，国内使用的是6.0之前的保活神器-Native保活库<a href="https://github.com/Marswin/MarsDaemon" target="_blank" rel="external">MarsDaemon</a>。可惜安卓6.0之后Native保活已经不好用了，所以实际上公司的app在国内只能呼出sip电话，却很难接到来电，这是一个很尴尬的问题。所以在和ios的进度基本相同后，公司开始考虑国内推送功能，之前我也进行了接近半年的预研工作，自认为对国内推送还是比较有把握的，就愉快的入坑了。</p>
+<p>&emsp;&emsp;&ensp;推送方案一开始定的是根据机型选择，如果是华为/小米就用各自厂家的推送方案，否则就使用第三方极光推送。这里还有个关键点，就是国内国外的推送方案选择。因为我们公司的产品既有可能部署在国内也有可能部署在国外，而客户端也是这样，所以这个国内国外的推送选择既要考虑客户端是否支持谷歌推送，也要考虑服务端是否支持谷歌推送。最终的推送方案如下图所示<img src="安卓推送选择机制.png" alt=""></p>
+<p>&emsp;&emsp;&ensp;后来进入挂机测试，发现国内推送的支持有各种问题，主要还是在可靠性上，在不充电的状态下，完全kill app后，华为和小米的推送到达率和及时率都有问题，只能达到80%左右的通话到达率。这样的可靠性达不到公司设定的目标，后来尝试加入推送重发机制，效果还是不理想。最后只能放弃纯靠推送，改为保活为主，推送为辅的机制，参考了<a href="https://mp.weixin.qq.com/s?__biz=MzA3ODg4MDk0Ng==&amp;mid=403254393&amp;idx=1&amp;sn=8dc0e3a03031177777b5a5876cb210cc" target="_blank" rel="external">微信Android客户端后台保活经验分享
+</a>。最终在网上找了白色保活库<a href="https://github.com/xingda920813/HelloDaemon" target="_blank" rel="external">HelloDaemon</a>，主要还是要引导用户开启保活相关功能，并且加入了国内手机的白名单引导设置。本以为这样的完了，可是在实际测试中还是会遇到一个问题，华为手机经常随机的出现网络被限制住的情况，期间各种手段都尝试过，效果都不理想，最后偶然发现</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/03/保活过程的踩坑经历/" data-id="cjecw57sy000mx08r0pdo75hv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-activity启动模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/06/activity启动模式/" class="article-date">
+  <time datetime="2017-09-06T13:40:58.000Z" itemprop="datePublished">2017-09-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/activity启动模式/">activity启动模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;&ensp;最近项目中用到锁屏时app的锁屏界面和系统通话界面的交互问题，<a href="https://developer.android.com/guide/topics/manifest/activity-element.html?hl=zh-cn" target="_blank" rel="external"><activity> 清单文件元素</activity></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/06/activity启动模式/" data-id="cjecw57rs0002x08rat0wbvg5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-keyguard-secure" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/06/19/keyguard-secure/" class="article-date">
@@ -170,12 +284,12 @@ public static boolean judgePhoneHasLock(Context context) {
         return judgePhoneHasLockNew(context);
     }
 }
-</code></pre><p>至于为何不能使用反射的方法调用getActivePasswordQuality(int userId)，估计要去看官方源码才能解释了，暂时就到这里了。</p>
+</code></pre><p>至于为何不能使用反射的方法调用getActivePasswordQuality(int userId)，估计要去看官方源码才能解释了，暂时就到这里了。<br>ps：后面发现自己把需求想复杂了，我并不需要判断是否有锁屏密码，而只需要判断目前有没有锁屏，锁屏就调用对应的锁屏页面，而解锁状态就调普通页面即可。判断是否锁屏状态的源码很简单，如下</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/19/keyguard-secure/" data-id="cj4499pn0000fu18rilexpgn7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/06/19/keyguard-secure/" data-id="cjecw57sp000gx08r6ps7odmr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-screenlock/">android screenlock</a></li></ul>
@@ -224,7 +338,7 @@ if ((getIntent().getFlags() &amp; Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/13/android-installer-open-problem/" data-id="cj4499pm80002u18rkzox4ln5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/06/13/android-installer-open-problem/" data-id="cjecw57rv0003x08rppmc62lp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-问题/">android 问题</a></li></ul>
@@ -263,7 +377,7 @@ if ((getIntent().getFlags() &amp; Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/11/gridview-delete-item/" data-id="cj4499pms0006u18rv7zgwfgo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/11/gridview-delete-item/" data-id="cjecw57sd0007x08ril47l25p" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/平时问题/">平时问题</a></li></ul>
@@ -320,7 +434,7 @@ signingConfigs {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/04/21/gradle-plugin/" data-id="cj4499pmb0003u18rj55jjuq4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/04/21/gradle-plugin/" data-id="cjecw57rw0004x08rbtlqtf07" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gradle/">gradle</a></li></ul>
@@ -372,7 +486,7 @@ signingConfigs {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/04/17/LayoutInflater-inflate/" data-id="cj4499pm60001u18rkatvfvro" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/04/17/LayoutInflater-inflate/" data-id="cjecw57ro0001x08rkwy2wiqj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -420,7 +534,7 @@ chmod a+r /etc/udev/rules.d/51-android.rules
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/31/ubuntu-android/" data-id="cj4499pn2000hu18rp4sztmew" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/31/ubuntu-android/" data-id="cjecw57su000ix08rnkmm8xu1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -465,136 +579,7 @@ chmod a+r /etc/udev/rules.d/51-android.rules
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/30/GreenDao/" data-id="cj4499plz0000u18rail1xfo7" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-gradle" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/16/gradle/" class="article-date">
-  <time datetime="2017-03-16T14:18:44.000Z" itemprop="datePublished">2017-03-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/16/gradle/">gradle入门</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;&ensp;先占坑，后面慢慢填</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/16/gradle/" data-id="cj4499pml0005u18rmoi9hm6r" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-jni" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/16/jni/" class="article-date">
-  <time datetime="2017-03-16T12:56:57.000Z" itemprop="datePublished">2017-03-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/16/jni/">android JNI</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;&ensp;今天面试遇到一个问题，android中JNI调用过程，回来查了资料，先做一个小demo，跟着<a href="http://www.jianshu.com/p/a3e7aacf2252" target="_blank" rel="external">Android NDK/JNI入门</a>做个小demo。在实现的过程中遇到一个小坑，记录一下。</p>
-<ul>
-<li>遇到android studio中的终端使用source .bash_profile报错的情况，这是因为as的终端默认目录是在当前工程目录下所以会报找不到bash文件的错误 </li>
-<li>这是我找的一个踩坑文章<a href="http://www.jianshu.com/p/7994e80b506d" target="_blank" rel="external">[Android ]JNI 入门踩坑</a></li>
-</ul>
-<p>后面再慢慢理清jni调用原理。</p>
-<p>&emsp;&emsp;&ensp;资料包括<a href="http://gityuan.com/2016/05/28/android-jni/" target="_blank" rel="external">Android JNI原理分析</a>和<a href="http://wiki.jikexueyuan.com/project/deep-android-v1/jni.html" target="_blank" rel="external">深入理解JNI</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/16/jni/" data-id="cj4499pmz000du18rq7xoz04i" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-interview" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/15/interview/" class="article-date">
-  <time datetime="2017-03-15T05:46:38.000Z" itemprop="datePublished">2017-03-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/15/interview/">面试问题总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>介绍你工作中遇到的问题及解决方法</li>
-</ul>
-<p>&emsp;&emsp;&ensp;之前有个文件下载接口调试的时候，用浏览器下载完全没问题，可是我自己调用的时候却一直连接不上，后来就使用抓包工具抓取浏览器调用的包和app调用的包，对比之后发现，原来是因为浏览器会把非英文及数字的输入URL编码，而下载链接中有中文，app端没有对中文进行URL编码，所以浏览器可以调用，app调用同样的链接是行不通的。</p>
-<p>&emsp;&emsp;&ensp;第二个案例是我在工作中遇到蓝牙外设开发，一开始使用service处理，但是在遇到app退到后台的之后再返回会出现socket连接已经断开，而socket端口还占用，导致重新连接不上，为了更好的用户体验，我们单独开了一个进程处理蓝牙通信服务，使用aidl的RemoteCallbackList实现方法回调，通知主进程蓝牙服务的变化。</p>
-<ul>
-<li>Intent通信可以发送哪些类型的数据，如果要发送自定义的对象，必须实现哪个接口，为什么</li>
-</ul>
-<p>&emsp;&emsp;&ensp;Intent只能发送基本类型的，如果要发送自定义对象，必须实现Parcelable或者Serializable，这二者的区别是Serializable使用反射实现序列化和反序列化，需要大量的I/O操作，而Parcelable自己实现了封送和解封送（marshalled &amp;unmarshalled）不需要反射，而且数据也存在Native内存中，所以效率更高。Parcelable和Parcel的关系：Parcelable接口定义了封送和解封送的契约和规范，Parcel是一种最快速的序列化/反序列化机制，Parcelable的底层容器对象类是Parcel，是专为android进程间通信设计的。一定要注意，Intent的Bundler是在使用Binder机制进行数据传递的，能使用的Binder的缓冲区是有大小限制的（有些手机默认是2M），每个进程默认有16个Binder线程，所以每个线程能占用的缓冲区会更小。（大概有128k左右）所以看到“The Binder transaction failed because it was too large.”这类异常时你会知道怎么处理了。而且前面说了，Parcelable是使用Parcel容器实现封送和解封送的，去看Parcel会发现有些方法是Native即是用本地c代码实现的，是跟机子绑定的，所以最好不要用Parcelable进行持久化操作。</p>
-<ul>
-<li>线程间通信问题，UI线程和子线程的区别，可以直接在子线程中绑定UI线程，实现更新数据吗，为什么</li>
-</ul>
-<p>&emsp;&emsp;&ensp;照例是handler、looper、message、messagequeue那一套，涉及到JVM底层，这样设计是有它的好处的，因为如果直接更新的话（不考虑内存泄漏问题），也是可以实现的，但是会出现什么情况呢，没有线程去刷新UI界面，因为实际上每个线程中的数据在JVM的堆栈中在外部都有自己的缓存，所以光更新ui进程是有可能出现数据缓存问题的，就是你更新了数据，但是显示的还是旧的数据，而且既然ui线程被用来做这个，那么就没有线程来刷新ui了，其他网上的解释参见<a href="http://www.cnblogs.com/lao-liang/p/5108745.html" target="_blank" rel="external">Android子线程真的不能更新UI么</a>,有时间在了解一下JVM原理。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/15/interview/" data-id="cj4499pmy000bu18r5dq55hf3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/30/GreenDao/" data-id="cjecw57ri0000x08r5n0ii27i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -639,7 +624,7 @@ chmod a+r /etc/udev/rules.d/51-android.rules
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
     </div>
   </div>
 
@@ -652,23 +637,23 @@ chmod a+r /etc/udev/rules.d/51-android.rules
       <ul>
         
           <li>
+            <a href="/2018/03/04/保活过程的踩坑经历-二/">保活过程的踩坑经历(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/保活过程的踩坑经历/">保活过程的踩坑经历</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/06/activity启动模式/">activity启动模式</a>
+          </li>
+        
+          <li>
             <a href="/2017/06/19/keyguard-secure/">判断是否有锁屏密码</a>
           </li>
         
           <li>
             <a href="/2017/06/13/android-installer-open-problem/">android_installer_open_problem</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/11/gridview-delete-item/">gridview_delete_item</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/21/gradle-plugin/">INSTALL_PARSE_FAILED_NO_CERTIFICATES</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/17/LayoutInflater-inflate/">LayoutInflater.inflate</a>
           </li>
         
       </ul>
@@ -683,7 +668,7 @@ chmod a+r /etc/udev/rules.d/51-android.rules
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 John Doe<br>
+      &copy; 2018 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -3,14 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2017/3 | Hexo</title>
+  <title>保活过程的踩坑经历(二) | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2017/03/index.html">
+  <meta name="description" content="&amp;emsp;&amp;emsp;&amp;ensp;接上期的保活过程踩坑经历，除了java层遇到的问题，在这过程中还遇到了jni层的问题JNI ERROR (app bug): local reference table overflow (max=512)说的是本地引用数超过了512，这个错误在安卓8.0以下都有可能遇到。所以我就只能一点一点的排查jni层的代码，一个方法一个方法的检查，最终发现问题出在一个回调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="保活过程的踩坑经历(二)">
+<meta property="og:url" content="http://yoursite.com/2018/03/04/保活过程的踩坑经历-二/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;接上期的保活过程踩坑经历，除了java层遇到的问题，在这过程中还遇到了jni层的问题JNI ERROR (app bug): local reference table overflow (max=512)说的是本地引用数超过了512，这个错误在安卓8.0以下都有可能遇到。所以我就只能一点一点的排查jni层的代码，一个方法一个方法的检查，最终发现问题出在一个回调">
+<meta property="og:updated_time" content="2018-03-04T14:26:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="保活过程的踩坑经历(二)">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;接上期的保活过程踩坑经历，除了java层遇到的问题，在这过程中还遇到了jni层的问题JNI ERROR (app bug): local reference table overflow (max=512)说的是本地引用数超过了512，这个错误在安卓8.0以下都有可能遇到。所以我就只能一点一点的排查jni层的代码，一个方法一个方法的检查，最终发现问题出在一个回调">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -59,153 +63,52 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/31/ubuntu-android/" class="archive-article-date">
-  <time datetime="2017-03-31T14:15:45.000Z" itemprop="datePublished">Mar 31</time>
+        <section id="main"><article id="post-保活过程的踩坑经历-二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/04/保活过程的踩坑经历-二/" class="article-date">
+  <time datetime="2018-03-04T14:21:56.000Z" itemprop="datePublished">2018-03-04</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/31/ubuntu-android/">ubuntu下遇到识别不了的手机</a>
+    <h1 class="article-title" itemprop="name">
+      保活过程的踩坑经历(二)
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/30/GreenDao/" class="archive-article-date">
-  <time datetime="2017-03-30T15:14:37.000Z" itemprop="datePublished">Mar 30</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/30/GreenDao/">GreenDao在老项目中的使用</a>
-    </h1>
-  
+        <p>&emsp;&emsp;&ensp;接上期的保活过程踩坑经历，除了java层遇到的问题，在这过程中还遇到了jni层的问题JNI ERROR (app bug): local reference table overflow (max=512)说的是本地引用数超过了512，这个错误在安卓8.0以下都有可能遇到。所以我就只能一点一点的排查jni层的代码，一个方法一个方法的检查，最终发现问题出在一个回调方法中，对本地的引用未进行及时释放导致的。</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/16/gradle/" class="archive-article-date">
-  <time datetime="2017-03-16T14:18:44.000Z" itemprop="datePublished">Mar 16</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/16/gradle/">gradle入门</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/16/jni/" class="archive-article-date">
-  <time datetime="2017-03-16T12:56:57.000Z" itemprop="datePublished">Mar 16</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/04/保活过程的踩坑经历-二/" data-id="cjecw57sw000kx08r9zifhubj" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/16/jni/">android JNI</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/15/interview/" class="archive-article-date">
-  <time datetime="2017-03-15T05:46:38.000Z" itemprop="datePublished">Mar 15</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/15/interview/">面试问题总结</a>
-    </h1>
-  
-
-    </header>
+    </footer>
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/02/handler/" class="archive-article-date">
-  <time datetime="2017-03-02T13:59:14.000Z" itemprop="datePublished">Mar 2</time>
-</a>
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/02/handler/">线程间消息机制简析</a>
-    </h1>
   
+    <a href="/2018/03/03/保活过程的踩坑经历/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">保活过程的踩坑经历</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/02/hello-world/" class="archive-article-date">
-  <time datetime="2017-03-02T13:24:02.000Z" itemprop="datePublished">Mar 2</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
 </section>
         

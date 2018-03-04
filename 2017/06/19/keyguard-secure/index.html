@@ -15,7 +15,7 @@
 <meta property="og:description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近项目中用到锁屏页面的操作，有锁屏密码和没有锁屏密码的操作是不一样的，这就要求我们判断是否有锁屏密码，根据网上的资料Android手机如何判断有没有锁屏密码，实测后，在6.0以下的机子可用，但是在6.0以上就不行了，后来查询源码，发现现在反射的方法已经修改了
 /**
  * Used by device policy manager to validate th">
-<meta property="og:updated_time" content="2017-06-19T14:47:37.000Z">
+<meta property="og:updated_time" content="2017-12-07T15:26:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="判断是否有锁屏密码">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;&amp;ensp;最近项目中用到锁屏页面的操作，有锁屏密码和没有锁屏密码的操作是不一样的，这就要求我们判断是否有锁屏密码，根据网上的资料Android手机如何判断有没有锁屏密码，实测后，在6.0以下的机子可用，但是在6.0以上就不行了，后来查询源码，发现现在反射的方法已经修改了
@@ -178,12 +178,12 @@ public static boolean judgePhoneHasLock(Context context) {
         return judgePhoneHasLockNew(context);
     }
 }
-</code></pre><p>至于为何不能使用反射的方法调用getActivePasswordQuality(int userId)，估计要去看官方源码才能解释了，暂时就到这里了。</p>
+</code></pre><p>至于为何不能使用反射的方法调用getActivePasswordQuality(int userId)，估计要去看官方源码才能解释了，暂时就到这里了。<br>ps：后面发现自己把需求想复杂了，我并不需要判断是否有锁屏密码，而只需要判断目前有没有锁屏，锁屏就调用对应的锁屏页面，而解锁状态就调普通页面即可。判断是否锁屏状态的源码很简单，如下</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/19/keyguard-secure/" data-id="cj4499pn0000fu18rilexpgn7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/06/19/keyguard-secure/" data-id="cjecw57sp000gx08r6ps7odmr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-screenlock/">android screenlock</a></li></ul>
@@ -193,6 +193,15 @@ public static boolean judgePhoneHasLock(Context context) {
   
     
 <nav id="article-nav">
+  
+    <a href="/2017/09/06/activity启动模式/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          activity启动模式
+        
+      </div>
+    </a>
   
   
     <a href="/2017/06/13/android-installer-open-problem/" id="article-nav-older" class="article-nav-link-wrap">
@@ -235,7 +244,7 @@ public static boolean judgePhoneHasLock(Context context) {
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
     </div>
   </div>
 
@@ -248,23 +257,23 @@ public static boolean judgePhoneHasLock(Context context) {
       <ul>
         
           <li>
+            <a href="/2018/03/04/保活过程的踩坑经历-二/">保活过程的踩坑经历(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/保活过程的踩坑经历/">保活过程的踩坑经历</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/06/activity启动模式/">activity启动模式</a>
+          </li>
+        
+          <li>
             <a href="/2017/06/19/keyguard-secure/">判断是否有锁屏密码</a>
           </li>
         
           <li>
             <a href="/2017/06/13/android-installer-open-problem/">android_installer_open_problem</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/11/gridview-delete-item/">gridview_delete_item</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/21/gradle-plugin/">INSTALL_PARSE_FAILED_NO_CERTIFICATES</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/17/LayoutInflater-inflate/">LayoutInflater.inflate</a>
           </li>
         
       </ul>
@@ -279,7 +288,7 @@ public static boolean judgePhoneHasLock(Context context) {
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2017 John Doe<br>
+      &copy; 2018 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
